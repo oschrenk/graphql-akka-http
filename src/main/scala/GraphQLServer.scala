@@ -13,15 +13,15 @@ import scala.util.{Failure, Success}
 
 object GraphQLServer {
 
-  val repository = ShopRepository.createDatabase()
+  val repository: ShopRepository = ShopRepository.createDatabase()
 
   case object TooComplexQuery extends Exception
 
-  val rejectComplexQueries = QueryReducer.rejectComplexQueries(300, (_: Double, _:ShopRepository) => TooComplexQuery)
+  val rejectComplexQueries: QueryReducer[ShopRepository, ShopRepository] = QueryReducer.rejectComplexQueries(300, (_: Double, _:ShopRepository) => TooComplexQuery)
 
-  val exceptionHandler: Executor.ExceptionHandler = {
+  val exceptionHandler: Executor.ExceptionHandler = sangria.execution.ExceptionHandler (onException = {
     case (_, TooComplexQuery) => HandledException("Too complex query. Please reduce the field selection")
-  }
+  })
 
   def endpoint(requestJSON: JsValue)(implicit e: ExecutionContext): Route = {
 
