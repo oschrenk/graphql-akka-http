@@ -7,9 +7,9 @@ object SchemaDef {
   import sangria.macros.derive._
 
   //category has relation to product
-  val product = Relation[Product, (Seq[CategoryId], Product), CategoryId]("product-category", _._1, _._2)
+  private val product = Relation[Product, (Seq[CategoryId], Product), CategoryId]("product-category", _._1, _._2)
   //product has relation to category
-  val category = Relation[Category, (Seq[ProductId], Category), ProductId]("category-product", _._1, _._2)
+  private val category = Relation[Category, (Seq[ProductId], Category), ProductId]("category-product", _._1, _._2)
 
   val IdentifiableType = InterfaceType(
     "Identifiable",

@@ -10,11 +10,11 @@ class ShopRepository(db: Database) {
 
   import ShopRepository._
 
-  def allProducts = db.run(Products.result)
+  def allProducts: Future[Seq[Product]] = db.run(Products.result)
 
   def products(ids: Seq[ProductId]): Future[Seq[Product]] = db.run(Products.filter(_.id inSet ids).result)
 
-  def allCategories = db.run(Categories.result)
+  def allCategories: Future[Seq[Category]] = db.run(Categories.result)
 
   def categories(ids: Seq[CategoryId]): Future[Seq[Category]] = db.run(Categories.filter(_.id inSet ids).result)
 
@@ -125,7 +125,7 @@ object ShopRepository {
     )
   )
 
-  def createDatabase() = {
+  def createDatabase(): ShopRepository = {
     val db = Database.forConfig("h2mem")
 
     Await.result(db.run(databaseSetup), 10 seconds)

@@ -14,8 +14,8 @@ object Server extends App {
 
   val PORT = 8080
 
-  implicit val actorSystem = ActorSystem("graphql-server")
-  implicit val materializer = ActorMaterializer()
+  private implicit val actorSystem: ActorSystem = ActorSystem("graphql-server")
+  private implicit val materializer: ActorMaterializer = ActorMaterializer()
 
   import actorSystem.dispatcher
   import scala.concurrent.duration._
